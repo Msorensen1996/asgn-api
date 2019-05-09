@@ -17,4 +17,50 @@ exports.addAsgn = function(req, res) {
             res.status(500).json(err);
         });
 }
+exports.showAsgn = function(req, res) {
+    // res.send('Calling showOrder function');
+    if(!req.query.assignmentName) {
+        return res.status(400).send('Missing URL parameter.');
+    }
+    Order.findOne({
+        assignmentName: req.query.assignmentName
+    })
+        .then((doc) => {
+            res.json(doc);
+        })
+        .catch((err) => {
+            res.status(500).json(err);
+        });
+}
 
+exports.changeAsgn = function(req, res) {
+    // res.send('Calling changeOrder function');
+    if(!req.query.assignmentName) {
+        return res.status(400).send('Missing URL parameter.');
+    }
+    Order.findOneAndUpdate({
+        assignmentName: req.query.assignmentName
+    }, req.body, {new: true})
+    .then((doc) => {
+        res.json(doc);
+    })
+    .catch((err) => {
+        res.status(500).json(err);
+    });
+}
+
+exports.deleteAsgn = function(req, res) {
+    // res.send('Calling deleteOrder function');
+    if(!req.query.assignmentName) {
+        return res.status(400).send('Missing URL parameter.');
+    }
+    Order.findOneAndRemove({
+        orderId: req.query.assignmentName
+    })
+    .then((doc) => {
+        res.json(doc);
+    })
+    .catch((err) => {
+        res.status(500).json(err);
+    });
+}
